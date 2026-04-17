@@ -19,7 +19,6 @@ interface Props {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function MiiGrid({ miis, userId, parentPage }: Props) {
-	const session = useSession();
 	const router = useRouter();
 
 	// const ids = miis.map((m) => m.id).join(",");
@@ -81,19 +80,6 @@ export default function MiiGrid({ miis, userId, parentPage }: Props) {
 								</Link>
 							)}
 
-							{userId && Number(session.data?.user?.id) == userId && (
-								<div className="flex gap-1 text-2xl justify-end text-zinc-400">
-									<Link href={`/edit/${mii.id}`} title="Edit Mii" aria-label="Edit Mii" data-tooltip="Edit">
-										<Icon icon="mdi:pencil" />
-									</Link>
-									<DeleteMiiButton miiId={mii.id} miiName={mii.name} likes={mii._count.likedBy} />
-								</div>
-							)}
-
-							{/* Admin Controls */}
-							{parentPage === "admin" && (
-								<div className="flex justify-between w-full col-span-2 mt-2">
-									<div className="flex gap-1 text-3xl justify-center">
 										<button
 											onClick={async () => {
 												await fetch(`/api/admin/accept-mii?id=${mii.id}`, { method: "PATCH" });

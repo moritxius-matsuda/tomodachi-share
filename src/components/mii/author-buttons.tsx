@@ -1,10 +1,6 @@
 "use client";
 
-import Link from "next/link";
 import { Prisma } from "@prisma/client";
-import { Icon } from "@iconify/react";
-
-import DeleteMiiButton from "./delete-mii-button";
 
 interface Props {
 	mii: Prisma.MiiGetPayload<{
@@ -19,18 +15,7 @@ interface Props {
 }
 
 export default function AuthorButtons({ mii }: Props) {
-	const session = useSession();
-
-	if (!session.data || (Number(session.data.user?.id) !== mii.userId && Number(session.data.user?.id) !== Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID)))
-		return null;
-
-	return (
-		<>
-			<Link aria-label="Edit Mii" href={`/edit/${mii.id}`}>
-				<Icon icon="mdi:pencil" />
-				<span>Edit</span>
-			</Link>
-			<DeleteMiiButton miiId={mii.id} miiName={mii.name} likes={mii._count.likedBy ?? 0} inMiiPage />
-		</>
-	);
+	// Authentication has been removed - no author buttons
+	return null;
+}
 }

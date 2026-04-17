@@ -46,7 +46,6 @@ function deepMerge<T>(target: T, source: Partial<T>): T {
 }
 
 export default function EditForm({ mii, likes }: Props) {
-	const session = useSession();
 	const [files, setFiles] = useState<FileWithPath[]>([]);
 
 	const handleFilesChange: React.Dispatch<React.SetStateAction<FileWithPath[]>> = (updater) => {
@@ -268,20 +267,6 @@ export default function EditForm({ mii, likes }: Props) {
 						onChange={(e) => setDescription(e.target.value)}
 					/>
 				</div>
-
-				{session.data?.user?.id == process.env.NEXT_PUBLIC_ADMIN_USER_ID && (
-					<>
-						<div className="w-full grid grid-cols-3 items-center">
-							<label htmlFor="quarantined" className="font-semibold py-2">
-								Quarantined
-							</label>
-
-							<div className="col-span-2 flex gap-1">
-								<input type="checkbox" id="quarantined" className="checkbox-alt" checked={quarantined} onChange={(e) => setQuarantined(e.target.checked)} />
-							</div>
-						</div>
-					</>
-				)}
 
 				{/* Makeup/Images/Instructions (Switch only) */}
 				{mii.platform === "SWITCH" && (
