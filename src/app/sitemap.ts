@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 
 type SitemapRoute = MetadataRoute.Sitemap[0];
 
+export const dynamic = "force-dynamic";
 export const revalidate = 43200; // update every 12 hours
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
