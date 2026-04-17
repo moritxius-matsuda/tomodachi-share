@@ -97,9 +97,9 @@ export class RateLimit {
 
 	// Handle both functions above and identifier in one
 	async handle(): Promise<NextResponse<object | unknown> | undefined> {
-		const session = await auth();
+		// Authentication has been removed
 		const ip = this.request.headers.get("CF-Connecting-IP") || this.request.headers.get("X-Forwarded-For")?.split(",")[0];
-		const identifier = (session ? session.user?.id : ip) ?? "anonymous";
+		const identifier = ip ?? "anonymous";
 
 		this.data = await this.check(identifier);
 

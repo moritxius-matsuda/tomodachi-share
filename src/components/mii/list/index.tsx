@@ -21,16 +21,8 @@ export default async function MiiList({ searchParams, userId, parentPage }: Prop
 
 	const { q: query, sort, tags, exclude, platform, gender, makeup, allowCopying, quarantined, page = 1, limit = 24 } = parsed.data;
 
-	// My Likes page
+	// My Likes page - disabled due to auth removal
 	let miiIdsLiked: number[] | undefined = undefined;
-
-	if (parentPage === "likes" && session?.user?.id) {
-		const likedMiis = await prisma.like.findMany({
-			where: { userId: Number(session.user.id) },
-			select: { miiId: true },
-		});
-		miiIdsLiked = likedMiis.map((like) => like.miiId);
-	}
 
 	const where: Prisma.MiiWhereInput = {
 		// In queue logic
@@ -38,8 +30,8 @@ export default async function MiiList({ searchParams, userId, parentPage }: Prop
 			? { in_queue: true } // Only show queued Miis
 			: userId
 				? {
-						// Include queued Miis if user is on their profile
-						...(Number(session?.user?.id) === userId ? {} : { in_queue: false }),
+						// Don't show queued Miis on user profiles (auth removed)
+						in_queue: false,
 						userId,
 					}
 				: {
@@ -88,13 +80,6 @@ export default async function MiiList({ searchParams, userId, parentPage }: Prop
 		allowedCopying: true,
 		quarantined: true,
 		in_queue: true,
-		// Mii liked check
-		...(session?.user?.id && {
-			likedBy: {
-				where: { userId: Number(session.user.id) },
-				select: { userId: true },
-			},
-		}),
 		// Like count
 		_count: {
 			select: { likedBy: true },
