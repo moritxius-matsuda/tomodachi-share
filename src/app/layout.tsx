@@ -18,9 +18,15 @@ const lexend = Lexend({
 	subsets: ["latin"],
 });
 
+const getBaseUrl = () => {
+	if (!process.env.NEXT_PUBLIC_BASE_URL) return undefined;
+	const url = process.env.NEXT_PUBLIC_BASE_URL;
+	return url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
+};
+
 export const metadata: Metadata = {
-	...(process.env.NEXT_PUBLIC_BASE_URL && {
-		metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
+	...(getBaseUrl() && {
+		metadataBase: new URL(getBaseUrl()!),
 	}),
 	title: "TomodachiShare - home for Tomodachi Life Miis!",
 	description: "Discover and share Mii residents for your Tomodachi Life island!",
@@ -33,7 +39,7 @@ export const metadata: Metadata = {
 		description: "Discover and share Mii residents for your Tomodachi Life island!",
 		images: "/preview.png",
 		type: "website",
-		...(process.env.NEXT_PUBLIC_BASE_URL && { url: process.env.NEXT_PUBLIC_BASE_URL }),
+		...(getBaseUrl() && { url: getBaseUrl()! }),
 	},
 	twitter: {
 		card: "summary_large_image",
