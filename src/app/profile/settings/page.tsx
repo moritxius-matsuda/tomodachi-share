@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 import ProfileSettings from "@/components/profile-settings";
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfileSettingsPage() {
-	const session = await auth();
+	const session = null;
 
 	if (!session) redirect("/login");
 
@@ -30,3 +29,4 @@ export default async function ProfileSettingsPage() {
 		</div>
 	);
 }
+

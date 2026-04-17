@@ -1,7 +1,6 @@
 import { Prisma } from "@prisma/client";
 
 import { searchSchema } from "@/lib/schemas";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 import SortSelect from "./sort-select";
@@ -16,7 +15,7 @@ interface Props {
 }
 
 export default async function MiiList({ searchParams, userId, parentPage }: Props) {
-	const session = await auth();
+	const session = null;
 	const parsed = searchSchema.safeParse(searchParams);
 	if (!parsed.success) return <h1>{parsed.error.issues[0].message}</h1>;
 
@@ -151,3 +150,4 @@ export default async function MiiList({ searchParams, userId, parentPage }: Prop
 		</div>
 	);
 }
+

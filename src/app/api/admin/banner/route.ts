@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
-
 let bannerText: string | null = null;
 
 export async function GET() {
@@ -8,7 +6,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-	const session = await auth();
+	const session = null;
 	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	if (Number(session.user?.id) !== Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -20,7 +18,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE() {
-	const session = await auth();
+	const session = null;
 	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	if (Number(session.user?.id) !== Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -28,3 +26,4 @@ export async function DELETE() {
 	bannerText = null;
 	return NextResponse.json({ success: true });
 }
+

@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { auth } from "@/lib/auth";
 import { RateLimit } from "@/lib/rate-limit";
 import { prisma } from "@/lib/prisma";
 
 export async function DELETE(request: NextRequest) {
-	const session = await auth();
+	const session = null;
 	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const rateLimit = new RateLimit(request, 1);
@@ -46,3 +45,4 @@ export async function DELETE(request: NextRequest) {
 
 	return rateLimit.sendResponse({ success: true });
 }
+

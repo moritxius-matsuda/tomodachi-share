@@ -1,21 +1,18 @@
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 import ProfilePicture from "./profile-picture";
 import Description from "./description";
 
 interface Props {
-	userId?: number;
+	userId: number;
 	page?: "settings" | "likes";
 }
 
 export default async function ProfileInformation({ userId, page }: Props) {
-	const session = await auth();
-
-	const id = userId ? userId : Number(session?.user?.id);
+	const id = userId;
 	const user = await prisma.user.findUnique({ where: { id } });
 	const likedMiis = await prisma.like.count({ where: { userId: id } });
 
@@ -23,7 +20,6 @@ export default async function ProfileInformation({ userId, page }: Props) {
 
 	const isAdmin = id === Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID);
 	const isContributor = process.env.NEXT_PUBLIC_CONTRIBUTORS_USER_IDS?.split(",").includes(id.toString());
-	const isOwnProfile = Number(session?.user?.id) === id;
 
 	return (
 		<div className="bg-amber-50 border-2 border-amber-500 rounded-2xl shadow-lg p-4 flex gap-4 mb-2 max-md:flex-col">
@@ -64,25 +60,23 @@ export default async function ProfileInformation({ userId, page }: Props) {
 
 			{/* Buttons */}
 			<div className="flex gap-1 w-fit text-3xl text-orange-400 max-md:place-self-center *:size-17 *:flex *:flex-col *:items-center *:gap-1 **:transition-discrete **:duration-150 *:hover:brightness-75 *:hover:scale-[1.08] *:[&_span]:text-sm">
-				{!isOwnProfile && (
-					<Link aria-label="Report User" href={`/report/user/${id}`}>
-						<Icon icon="material-symbols:flag-rounded" />
-						<span>Report</span>
-					</Link>
-				)}
-				{isOwnProfile && isAdmin && (
+				<Link aria-label="Report User" href={`/report/user/${id}`}>
+					<Icon icon="material-symbols:flag-rounded" />
+					<span>Report</span>
+				</Link>
+				{isAdmin && (
 					<Link aria-label="Go to Admin" href="/admin">
 						<Icon icon="mdi:shield-moon" />
 						<span>Admin</span>
 					</Link>
 				)}
-				{isOwnProfile && page !== "likes" && (
+				{page !== "likes" && (
 					<Link aria-label="Go to My Likes" href="/profile/likes">
 						<Icon icon="icon-park-solid:like" />
 						<span>My Likes</span>
 					</Link>
 				)}
-				{isOwnProfile && page !== "settings" && (
+				{page !== "settings" && (
 					<Link aria-label="Go to Settings" href="/profile/settings">
 						<Icon icon="material-symbols:settings-rounded" />
 						<span>Settings</span>

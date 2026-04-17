@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { auth } from "@/lib/auth";
 import { settings } from "@/lib/settings";
 
 export async function GET() {
@@ -8,7 +7,7 @@ export async function GET() {
 }
 
 export async function PATCH(request: NextRequest) {
-	const session = await auth();
+	const session = null;
 	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	if (Number(session.user?.id) !== Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -20,3 +19,4 @@ export async function PATCH(request: NextRequest) {
 	settings.queueEnabled = validated.data;
 	return NextResponse.json({ success: true });
 }
+

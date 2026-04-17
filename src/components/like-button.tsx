@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Icon, loadIcons } from "@iconify/react";
@@ -16,7 +15,6 @@ interface Props {
 }
 
 export default function LikeButton({ likes, isLiked, miiId, disabled, abbreviate, big }: Props) {
-	const session = useSession();
 	const router = useRouter();
 
 	const [isLikedState, setIsLikedState] = useState(isLiked);

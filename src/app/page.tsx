@@ -1,8 +1,6 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 import MiiList from "@/components/mii/list";
@@ -36,18 +34,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function Page({ searchParams }: Props) {
-	const session = await auth();
 	const { tags } = await searchParams;
-
-	if (session?.user) {
-		const activePunishment = await prisma.punishment.findFirst({
-			where: {
-				userId: Number(session?.user.id),
-				returned: false,
-			},
-		});
-		if (activePunishment) redirect("/off-the-island");
-	}
 
 	return (
 		<>

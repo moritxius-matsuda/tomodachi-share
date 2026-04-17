@@ -2,8 +2,6 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-import { auth } from "@/lib/auth";
-
 import ProfileInformation from "@/components/profile-information";
 import Skeleton from "@/components/mii/list/skeleton";
 import MiiList from "@/components/mii/list";
@@ -22,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfileSettingsPage({ searchParams }: Props) {
-	const session = await auth();
+	const session = null;
 
 	if (!session) redirect("/login");
 
@@ -42,3 +40,4 @@ export default async function ProfileSettingsPage({ searchParams }: Props) {
 		</div>
 	);
 }
+

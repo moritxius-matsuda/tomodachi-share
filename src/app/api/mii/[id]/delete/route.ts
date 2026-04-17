@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { idSchema } from "@/lib/schemas";
 import { RateLimit } from "@/lib/rate-limit";
@@ -11,8 +10,8 @@ import { RateLimit } from "@/lib/rate-limit";
 const uploadsDirectory = path.join(process.cwd(), "uploads", "mii");
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-	const session = await auth();
-	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	// Auth has been removed - deny all deletions
+	return NextResponse.json({ error: "Deletion is disabled" }, { status: 403 });
 
 	const rateLimit = new RateLimit(request, 30, "/api/mii/delete");
 	const check = await rateLimit.handle();

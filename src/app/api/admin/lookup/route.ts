@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { idSchema } from "@/lib/schemas";
 
 export async function GET(request: NextRequest) {
-	const session = await auth();
+	const session = null;
 	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	if (Number(session.user?.id) !== Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -56,3 +55,4 @@ export async function GET(request: NextRequest) {
 		punishments: user.punishments,
 	});
 }
+

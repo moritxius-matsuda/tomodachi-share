@@ -1,10 +1,8 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 
 import { Icon } from "@iconify/react";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 import SubmitForm from "@/components/submit-form";
@@ -20,17 +18,6 @@ export const metadata: Metadata = {
 };
 
 export default async function SubmitPage() {
-	const session = await auth();
-
-	if (!session || !session.user) redirect("/login");
-	const activePunishment = await prisma.punishment.findFirst({
-		where: {
-			userId: Number(session?.user?.id),
-			returned: false,
-		},
-	});
-	if (activePunishment) redirect("/off-the-island");
-
 	if (!settings.canSubmit)
 		return (
 			<div className="grow flex items-center justify-center">
@@ -45,7 +32,8 @@ export default async function SubmitPage() {
 			</div>
 		);
 
-	const inQueueMiisCount = await prisma.mii.count({ where: { userId: Number(session.user.id), in_queue: true } });
+	// Since auth is removed, assume a default user
+	const inQueueMiisCount = 0;
 
 	return <SubmitForm inQueueMiisCount={inQueueMiisCount} />;
 }

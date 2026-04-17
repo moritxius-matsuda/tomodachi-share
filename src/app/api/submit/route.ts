@@ -9,7 +9,6 @@ import qrcode from "qrcode-generator";
 import { profanity } from "@2toad/profanity";
 import { MiiGender, MiiMakeup, MiiPlatform } from "@prisma/client";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { nameSchema, switchMiiInstructionsSchema, tagsSchema } from "@/lib/schemas";
 import { RateLimit } from "@/lib/rate-limit";
@@ -73,8 +72,9 @@ const submitSchema = z
 	);
 
 export async function POST(request: NextRequest) {
-	const session = await auth();
-	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	// Default user since auth has been removed
+	const userId = 0;
+	const userName = "Anonymous";
 
 	const rateLimit = new RateLimit(request, 3);
 	const check = await rateLimit.handle();
@@ -185,7 +185,7 @@ export async function POST(request: NextRequest) {
 	// Create Mii in database
 	const miiRecord = await prisma.mii.create({
 		data: {
-			userId: Number(session.user?.id),
+			userId: userId || 1, // Default to userId 1 for anonymous submissions
 			platform,
 			name,
 			tags,
@@ -266,7 +266,7 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		await generateMetadataImage(miiRecord, session.user?.name!);
+		await generateMetadataImage(miiRecord, userName);
 	} catch (error) {
 		console.error("Failed to generate metadata image:", error);
 	}

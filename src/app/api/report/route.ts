@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { Prisma, ReportReason, ReportType } from "@prisma/client";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { RateLimit } from "@/lib/rate-limit";
 
@@ -16,7 +15,7 @@ const reportSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
-	const session = await auth();
+	const session = null;
 	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const rateLimit = new RateLimit(request, 2);
@@ -104,3 +103,4 @@ export async function POST(request: NextRequest) {
 
 	return rateLimit.sendResponse({ success: true });
 }
+

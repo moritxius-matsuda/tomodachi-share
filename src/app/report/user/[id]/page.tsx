@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 import ReportUserForm from "@/components/report/user-form";
@@ -20,7 +19,6 @@ export const metadata: Metadata = {
 };
 
 export default async function ReportUserPage({ params }: Props) {
-	const session = await auth();
 	const { id } = await params;
 
 	const user = await prisma.user.findUnique({

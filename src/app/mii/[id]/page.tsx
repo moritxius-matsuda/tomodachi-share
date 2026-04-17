@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 
 import { Icon } from "@iconify/react";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { MiiPlatform } from "@prisma/client";
 
@@ -90,7 +89,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function MiiPage({ params }: Props) {
 	const { id } = await params;
-	const session = await auth();
 
 	const mii = await prisma.mii.findUnique({
 		where: {
@@ -102,14 +100,6 @@ export default async function MiiPage({ params }: Props) {
 					name: true,
 				},
 			},
-			likedBy: session?.user
-				? {
-						where: {
-							userId: Number(session.user.id),
-						},
-						select: { userId: true },
-					}
-				: false,
 			_count: {
 				select: { likedBy: true }, // Get total like count
 			},

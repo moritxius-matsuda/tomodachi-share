@@ -2,16 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 
 import SearchBar from "./search-bar";
 import RandomLink from "./random-link";
-import ProfileOverview from "./profile-overview";
-import LogoutButton from "./logout-button";
 
 export default function Header() {
-	const session = useSession();
-
 	return (
 		<header className="sticky top-0 z-50 w-full p-4 grid grid-cols-3 gap-2 gap-x-4 items-center bg-amber-50 border-b-4 border-amber-500 shadow-md max-lg:grid-cols-2 max-md:grid-cols-1">
 			<Link
@@ -36,18 +31,6 @@ export default function Header() {
 						Submit
 					</Link>
 				</li>
-				{!session?.data?.user ? (
-					<li>
-						<Link href={"/login"} className="pill button h-full">
-							Login
-						</Link>
-					</li>
-				) : (
-					<>
-						<ProfileOverview />
-						<LogoutButton />
-					</>
-				)}
 			</ul>
 		</header>
 	);

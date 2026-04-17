@@ -1,8 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/lib/auth";
-
 import BannerForm from "@/components/admin/banner-form";
 import ControlCenter from "@/components/admin/control-center";
 import RegenerateImagesButton from "@/components/admin/regenerate-images";
@@ -24,7 +22,7 @@ interface Props {
 }
 
 export default async function AdminPage({ searchParams }: Props) {
-	const session = await auth();
+	const session = null;
 
 	if (!session || Number(session.user?.id) !== Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID)) redirect("/404");
 
@@ -82,3 +80,4 @@ export default async function AdminPage({ searchParams }: Props) {
 		</div>
 	);
 }
+

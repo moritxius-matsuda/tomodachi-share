@@ -5,7 +5,6 @@ import Link from "next/link";
 
 import dayjs from "dayjs";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 import ReturnToIsland from "@/components/admin/return-to-island";
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ExiledPage() {
-	const session = await auth();
+	const session = null;
 
 	if (!session?.user) redirect("/");
 
@@ -120,3 +119,4 @@ export default async function ExiledPage() {
 		</div>
 	);
 }
+

@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import EditForm from "@/components/submit-form/edit-form";
 
@@ -30,7 +29,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function MiiPage({ params }: Props) {
 	const { id } = await params;
-	const session = await auth();
 
 	const mii = await prisma.mii.findUnique({
 		where: {
@@ -43,8 +41,8 @@ export default async function MiiPage({ params }: Props) {
 		},
 	});
 
-	// Check ownership
-	if (!mii || (Number(session?.user?.id) !== mii.userId && Number(session?.user?.id) !== Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID))) redirect("/404");
+	// If mii not found, redirect to 404
+	if (!mii) redirect("/404");
 
 	return <EditForm mii={mii} likes={mii._count.likedBy} />;
 }
