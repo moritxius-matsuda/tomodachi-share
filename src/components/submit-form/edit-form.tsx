@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FileWithPath } from "react-dropzone";
 import { Mii, MiiGender, MiiMakeup } from "@prisma/client";
-import { useSession } from "next-auth/react";
 
 import { nameSchema, tagsSchema } from "@/lib/schemas";
 import { defaultInstructions, minifyInstructions } from "@/lib/switch";

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { Icon } from "@iconify/react";
 
 import DeleteMiiButton from "./delete-mii-button";

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient, RedisClientType } from "redis";
-import { auth } from "./auth";
 
 const WINDOW_SIZE = 60;
 let client: RedisClientType | null = null;

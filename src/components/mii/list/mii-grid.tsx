@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { Prisma } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { Icon } from "@iconify/react";
 
 import LikeButton from "@/components/like-button";
