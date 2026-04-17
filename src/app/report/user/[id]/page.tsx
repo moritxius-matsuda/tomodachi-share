@@ -27,7 +27,6 @@ export default async function ReportUserPage({ params }: Props) {
 		},
 	});
 
-	if (!session) redirect("/login");
 	if (!user) redirect("/404");
 
 	return (

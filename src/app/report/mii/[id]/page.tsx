@@ -34,7 +34,6 @@ export default async function ReportMiiPage({ params }: Props) {
 		},
 	});
 
-	if (!session) redirect("/login");
 	if (!mii) redirect("/404");
 
 	return (
