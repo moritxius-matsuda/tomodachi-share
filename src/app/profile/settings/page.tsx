@@ -14,5 +14,4 @@ export default async function ProfileSettingsPage() {
 	// Authentication has been removed - redirect home
 	redirect("/");
 }
-}
 
