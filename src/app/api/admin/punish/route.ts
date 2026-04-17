@@ -26,10 +26,8 @@ const punishSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
-	const session = null;
-	if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-	if (Number(session.user?.id) !== Number(process.env.NEXT_PUBLIC_ADMIN_USER_ID)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+	// Authentication has been removed - deny all admin access
+	return NextResponse.json({ error: "Admin functionality is disabled" }, { status: 403 });
 
 	const searchParams = request.nextUrl.searchParams;
 	const parsedUserId = idSchema.safeParse(searchParams.get("id"));
