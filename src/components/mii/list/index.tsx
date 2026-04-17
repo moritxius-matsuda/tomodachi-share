@@ -39,24 +39,24 @@ export default async function MiiList({ searchParams, userId, parentPage }: Prop
 						in_queue: false,
 					}),
 		// Only show liked miis on likes page
-		...(parentPage === "likes" && miiIdsLiked && { id: { in: miiIdsLiked } }),
+		...(parentPage === "likes" && miiIdsLiked ? { id: { in: miiIdsLiked } } : {}),
 		// Searching
-		...(query && {
+		...(query ? {
 			OR: [{ name: { contains: query, mode: "insensitive" } }, { tags: { has: query } }, { description: { contains: query, mode: "insensitive" } }],
-		}),
+		} : {}),
 		// Tag filtering
-		...(tags && tags.length > 0 && { tags: { hasEvery: tags } }),
-		...(exclude && exclude.length > 0 && { NOT: { tags: { hasSome: exclude } } }),
+		...(tags && tags.length > 0 ? { tags: { hasEvery: tags } } : {}),
+		...(exclude && exclude.length > 0 ? { NOT: { tags: { hasSome: exclude } } } : {}),
 		// Platform
-		...(platform && { platform: { equals: platform } }),
+		...(platform ? { platform: { equals: platform } } : {}),
 		// Gender
-		...(gender && { gender: { equals: gender } }),
+		...(gender ? { gender: { equals: gender } } : {}),
 		// Allow Copying
-		...(allowCopying && { allowedCopying: true }),
+		...(allowCopying ? { allowedCopying: true } : {}),
 		// Makeup
-		...(makeup && { makeup: { equals: makeup } }),
+		...(makeup ? { makeup: { equals: makeup } } : {}),
 		// Quarantined
-		...(!quarantined && !userId && { quarantined: false }),
+		...(!quarantined && !userId ? { quarantined: false } : {}),
 	};
 
 	const select: Prisma.MiiSelect = {
