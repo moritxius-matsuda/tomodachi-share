@@ -79,24 +79,6 @@ export default function MiiGrid({ miis, userId, parentPage }: Props) {
 									@{mii.user?.name}
 								</Link>
 							)}
-
-										<button
-											onClick={async () => {
-												await fetch(`/api/admin/accept-mii?id=${mii.id}`, { method: "PATCH" });
-											}}
-											className="cursor-pointer text-zinc-400 hover:text-green-500 transition-colors p-1 bg-white rounded-md shadow-sm border border-zinc-200 hover:border-green-500"
-											title="Accept Mii"
-										>
-											<Icon icon="material-symbols:check-rounded" />
-										</button>
-										<div className="text-zinc-400 hover:text-red-500 transition-colors p-1 bg-white rounded-md shadow-sm border border-zinc-200 hover:border-red-500 flex items-center justify-center">
-											<DeleteMiiButton miiId={mii.id} miiName={mii.name} likes={mii._count.likedBy} />
-										</div>
-									</div>
-
-									<span className="text-sm w-1/2 text-right">{mii.createdAt.toLocaleString("en-GB", { timeZone: "UTC" })}</span>
-								</div>
-							)}
 						</div>
 					</div>
 				</div>

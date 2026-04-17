@@ -18,4 +18,3 @@ export default function AuthorButtons({ mii }: Props) {
 	// Authentication has been removed - no author buttons
 	return null;
 }
-}
